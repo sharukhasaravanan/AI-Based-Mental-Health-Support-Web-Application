@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Mental Health Support</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f9f4f5;
+      overflow: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255, 242, 242, 0.7), rgba(242, 249, 255, 0.7));
+      z-index: -1;
+    }
+
+    .floating-petals {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .petal {
+      position: absolute;
+      background-color: #ffdbeb;
+      opacity: 0.7;
+      border-radius: 150% 0 150% 0;
+      animation: floating linear infinite;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-container h2 {
+      color: #d487b3;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(212, 135, 179, 0.3);
+      border-radius: 10px;
+      color: #555;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.9);
+      border-color: #d487b3;
+      box-shadow: 0 0 15px rgba(212, 135, 179, 0.2);
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus ~ label,
+    .input-group input:valid ~ label {
+      top: -20px;
+      left: 5px;
+      font-size: 0.8rem;
+      color: #d487b3;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(45deg, #d487b3, #8faaff);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(143, 170, 255, 0.2);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(143, 170, 255, 0.4);
+    }
+
+    .signup-link {
+      margin-top: 20px;
+      text-align: center;
+      color: #666;
+    }
+
+    .signup-link a {
+      color: #8faaff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .signup-link a:hover {
+      color: #d487b3;
+    }
+
+    @keyframes floating {
+      0% {
+        transform: translate(0, -10vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(var(--finalX), 110vh) rotate(var(--rotation));
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Video Background -->
+  <video class="video-background" autoplay muted loop>
+    <!-- Add your cherry blossom video here -->
+    <source src="{{ url_for('static', filename='videos/video2.mp4') }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  
+  <div class="overlay"></div>
+  
+  <div class="floating-petals" id="petals-container"></div>
+
+  <div class="login-container">
+    <h2>Welcome</h2>
+    <form method="POST">
+      <div class="input-group">
+        <input type="text" name="username" required>
+        <label>Username</label>
+      </div>
+      <div class="input-group">
+        <input type="password" name="password" required>
+        <label>Password</label>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div class="signup-link">
+      <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+    </div>
+    {% if error %}
+      <p style="color: #ff6b6b; text-align: center; margin-top: 20px;">{{ error }}</p>
+    {% endif %}
+  </div>
+
+  <script>
+    // Create floating cherry blossom petals
+    const petalsContainer = document.getElementById('petals-container');
+    const petalCount = 100;
+    
+    for (let i = 0; i < petalCount; i++) {
+      createPetal();
+    }
+    
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      
+      // Random size between 15px and 25px
+      const size = Math.random() * 10 + 15;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size}px`;
+      
+      // Random starting position
+      petal.style.left = `${Math.random() * 100}%`;
+      
+      // Random hue variation for petals
+      const hue = 340 + (Math.random() * 30 - 15); // pink variations
+      const lightness = 80 + (Math.random() * 10);
+      petal.style.backgroundColor = `hsl(${hue}, 70%, ${lightness}%)`;
+      
+      // Set animation properties
+      const duration = Math.random() * 15 + 10; // 10-25 seconds
+      petal.style.animationDuration = `${duration}s`;
+      
+      // Set custom properties for the animation
+      petal.style.setProperty('--finalX', `${Math.random() * 100 - 50}px`);
+      petal.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+      
+      petalsContainer.appendChild(petal);
+      
+      // Remove and recreate petal when animation ends
+      setTimeout(() => {
+        petal.remove();
+        createPetal();
+      }, duration * 1000);
+    }
+
+    // Subtle login container movement on mousemove
+    document.addEventListener('mousemove', (e) => {
+      const container = document.querySelector('.login-container');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      // Very subtle movement
+      const moveX = (x - 0.5) * 5;
+      const moveY = (y - 0.5) * 5;
+      
+      container.style.transform = `translateY(-5px) translateX(${moveX}px) translateY(${moveY}px)`;
+    });
+  </script>
+</body>
+</html>

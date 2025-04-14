@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Mental Health Support</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+      background: #000;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    .background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      overflow: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+      opacity: 0;
+    }
+
+    .login-container {
+      position: relative;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 40px;
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      transition: transform 0.5s ease;
+      box-shadow: 0 0 30px rgba(255, 97, 197, 0.2);
+    }
+
+    .login-container:hover {
+      transform: translateZ(50px);
+    }
+
+    .login-container h2 {
+      margin: 0 0 30px;
+      font-size: 2.5rem;
+      color: rgb(255, 97, 197);
+      text-shadow: 0 0 20px rgba(255, 97, 197, 0.5);
+      animation: glowText 3s infinite alternate;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 25px 0;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      font-size: 1rem;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: rgba(255, 97, 197, 0.5);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 20px rgba(255, 97, 197, 0.2);
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus ~ label,
+    .input-group input:valid ~ label {
+      top: -25px;
+      left: 5px;
+      font-size: 0.9rem;
+      color: rgb(255, 97, 197);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(45deg, rgb(255, 97, 197), rgb(236, 86, 221));
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 97, 197, 0.3);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: buttonShine 3s infinite;
+    }
+
+    p {
+      margin: 20px 0 0;
+      font-size: 1.1rem;
+    }
+
+    a {
+      color: rgb(255, 97, 197);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      text-shadow: 0 0 10px rgba(255, 97, 197, 0.5);
+    }
+
+    .error {
+      color: #ff6b6b;
+      margin-top: 15px;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .particle-trail {
+      position: fixed;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: var(--twinkleOpacity);
+      }
+    }
+
+    @keyframes glowText {
+      0% {
+        text-shadow: 0 0 20px rgba(255, 97, 197, 0.5);
+      }
+      100% {
+        text-shadow: 0 0 40px rgba(255, 97, 197, 0.8);
+      }
+    }
+
+    @keyframes buttonShine {
+      0% {
+        left: -50%;
+      }
+      100% {
+        left: 150%;
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      75% {
+        transform: translateX(5px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="stars"></div>
+  </div>
+
+  <div class="particle-trail"></div>
+
+  <div class="login-container">
+    <h2>Sign Up</h2>
+    <form method="POST">
+      <div class="input-group">
+        <input type="text" name="username" required>
+        <label>Username</label>
+      </div>
+      <div class="input-group">
+        <input type="password" name="password" required>
+        <label>Password</label>
+      </div>
+      <button type="submit">Create Account</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  </div>
+
+  <script>
+    // Create stars
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.width = Math.random() * 3 + 'px';
+      star.style.height = star.style.width;
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+      star.style.setProperty('--twinkleOpacity', Math.random() * 0.7 + 0.3);
+      starsContainer.appendChild(star);
+    }
+
+    // 3D effect for container
+    document.addEventListener('mousemove', (e) => {
+      const container = document.querySelector('.login-container');
+      const rect = container.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / container.offsetWidth - 0.5;
+      const y = (e.clientY - rect.top) / container.offsetHeight - 0.5;
+      
+      container.style.transform = `
+        translateZ(50px)
+        rotateX(${-y * 10}deg)
+        rotateY(${x * 10}deg)
+      `;
+    });
+
+    // Particle trail effect
+    const trail = document.querySelector('.particle-trail');
+    const particles = [];
+    const particleCount = 20;
+
+    document.addEventListener('mousemove', (e) => {
+      createParticle(e.clientX, e.clientY);
+    });
+
+    function createParticle(x, y) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = '8px';
+      particle.style.height = '8px';
+      particle.style.backgroundColor = `rgba(255, 97, 197, ${Math.random() * 0.5})`;
+      particle.style.borderRadius = '50%';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.pointerEvents = 'none';
+      trail.appendChild(particle);
+
+      particles.push({
+        element: particle,
+        x: x,
+        y: y,
+        angle: Math.random() * Math.PI * 2,
+        speed: Math.random() * 2 + 1,
+        rotation: Math.random() * 360,
+        opacity: 1
+      });
+
+      if (particles.length > particleCount) {
+        const removed = particles.shift();
+        removed.element.remove();
+      }
+    }
+
+    function updateParticles() {
+      particles.forEach(particle => {
+        particle.x += Math.cos(particle.angle) * particle.speed;
+        particle.y += Math.sin(particle.angle) * particle.speed;
+        particle.rotation += 5;
+        particle.opacity -= 0.02;
+
+        particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px) rotate(${particle.rotation}deg)`;
+        particle.element.style.opacity = particle.opacity;
+
+        if (particle.opacity <= 0) {
+          particle.element.remove();
+          particles.splice(particles.indexOf(particle), 1);
+        }
+      });
+
+      requestAnimationFrame(updateParticles);
+    }
+
+    updateParticles();
+  </script>
+</body>
+</html>

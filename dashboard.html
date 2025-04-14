@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Mental Health Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap">
+  <style>
+    :root {
+      --primary: #fe6eb6;
+      --primary-dark: #e64da0;
+      --secondary: #8a6fff;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --text-light: #f0f0f0;
+      --sidebar-width: 280px;
+      --header-height: 70px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+      display: flex;
+      overflow: hidden;
+      background-color: #f5f5f5;
+      height: 100vh;
+    }
+    
+    .sidebar {
+      width: var(--sidebar-width);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(40, 40, 40, 0.9) 100%);
+      height: 100vh;
+      padding: 2rem 1.5rem;
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+    
+    .logo-icon {
+      margin-right: 12px;
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.9rem 1rem;
+      margin: 0.6rem 0;
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .nav-item.active {
+      background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      box-shadow: 0 4px 10px rgba(254, 110, 182, 0.3);
+    }
+    
+    .nav-item i {
+      margin-right: 12px;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    .main-container {
+      flex: 1;
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+    
+    .background-clip {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.8;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.25) 100%);
+      z-index: 0;
+    }
+    
+    .main-content {
+      position: relative;
+      z-index: 5;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+    }
+    
+    .header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+    
+    .welcome-container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 85%;
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .welcome-container h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .welcome-container h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 10px;
+    }
+    
+    .welcome-container p {
+      font-size: 1.2rem;
+      color: #555;
+      margin: 1.5rem 0;
+      line-height: 1.6;
+    }
+    
+    .quote {
+      background: linear-gradient(135deg, rgba(138, 111, 255, 0.8) 0%, rgba(254, 110, 182, 0.8) 100%);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      width: 85%;
+      max-width: 600px;
+      position: relative;
+    }
+    
+    .quote::before {
+      content: '\201C';
+      font-family: Georgia, serif;
+      position: absolute;
+      top: -30px;
+      left: 20px;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 6rem;
+    }
+    
+    .quote p {
+      font-style: italic;
+      font-size: 1.3rem;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    .button {
+      padding: 0.8rem 2rem;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(254, 110, 182, 0.4);
+      margin-top: 1rem;
+    }
+    
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(254, 110, 182, 0.5);
+    }
+    
+    .button:active {
+      transform: translateY(1px);
+    }
+    
+    .button i {
+      margin-right: 8px;
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .profile-info {
+      flex: 1;
+    }
+    
+    .profile-info h4 {
+      color: var(--text-light);
+      margin: 0;
+      font-size: 1rem;
+    }
+    
+    .profile-info p {
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      font-size: 0.85rem;
+    }
+    
+    .logout {
+      margin-left: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .logout:hover {
+      color: var(--primary);
+    }
+
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 85%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      width: calc(50% - 20px);
+      min-width: 250px;
+      text-align: left;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 15px rgba(254, 110, 182, 0.2);
+    }
+
+    .card-icon i {
+      font-size: 1.8rem;
+      color: white;
+    }
+
+    .card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: #333;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .card {
+        width: 100%;
+      }
+      
+      .welcome-container,
+      .quote {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-brain logo-icon"></i>
+      <h2>SanvAI</h2>
+    </div>
+    
+    <a href="/dashboard" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    
+    <a href="/chatbot" class="nav-item">
+      <i class="fas fa-comment-dots"></i>
+      <span>Chatbot</span>
+    </a>
+    
+    <a href="/songs" class="nav-item">
+      <i class="fas fa-music"></i>
+      <span>Songs</span>
+    </a>
+    
+    <a href="/exercise" class="nav-item">
+      <i class="fas fa-dumbbell"></i>
+      <span>Exercise</span>
+    </a>
+    
+    <a href="/journal" class="nav-item">
+      <i class="fas fa-book"></i>
+      <span>Journal</span>
+    </a>
+
+    <a href="/analytics" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span class="ml-3">Analytics</span>
+  </a>
+    
+   
+  </div>
+
+  <div class="main-container">
+    <video autoplay loop muted playsinline class="background-clip">
+      <source src="{{ url_for('static', filename='videos/leaves.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    
+    <div class="overlay"></div>
+    
+    <div class="main-content">
+      <div class="welcome-container">
+        <h1>Welcome, {{ username }}!</h1>
+        <p>Your mental health journey matters. We're here to provide support, resources, and tools to help you nurture your mind and find balance in everyday life.</p>
+        <button class="button">
+          <i class="fas fa-compass"></i>
+          Explore Resources
+        </button>
+      </div>
+      
+      <div class="quote">
+        <p>"You are worthy of happiness and peace of mind. Every small step you take toward well-being matters."</p>
+      </div>
+      
+      <div class="cards-container">
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-comment-dots"></i>
+          </div>
+          <h3>AI Companion</h3>
+          <p>Chat with our supportive AI anytime you need someone to talk to or when seeking mental health guidance.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <h3>Calming Sounds</h3>
+          <p>Discover curated playlists designed to reduce anxiety, improve focus, and promote relaxation.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <h3>Mind-Body Exercises</h3>
+          <p>Access guided exercises that connect physical movement with mental well-being.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3>Reflective Journal</h3>
+          <p>Track your emotional journey and discover patterns to better understand your mental health.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

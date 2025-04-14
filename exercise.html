@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise - Mental Health Support</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary-color: #ff61c3;
+      --secondary-color: #9355c9;
+      --accent-color: #47b2dd;
+      --dark-accent: #073a92;
+      --text-color: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.15);
+      --sidebar-bg: rgba(25, 25, 40, 0.9);
+      --hover-color: rgba(255, 111, 197, 0.3);
+      --glow-color: rgba(255, 97, 195, 0.7);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, var(--secondary-color), var(--dark-accent));
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.6;
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      overflow-x: hidden;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: var(--sidebar-bg);
+      padding: 40px 25px;
+      height: 100vh;
+      box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(15px);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+    
+    .sidebar h2 {
+      margin: 0 0 40px;
+      font-size: 2rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      letter-spacing: 1px;
+      text-shadow: 0 0 15px var(--glow-color);
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .sidebar a {
+      display: flex;
+      padding: 15px 20px;
+      margin: 20px 0;
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.4s ease;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar a i {
+      margin-right: 15px;
+      font-size: 1.3rem;
+      color: var(--accent-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar a:hover {
+      background-color: var(--hover-color);
+      transform: translateX(8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar a:hover i {
+      transform: scale(1.2);
+      color: var(--primary-color);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    .main-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, rgba(71, 178, 221, 0.2), transparent 60%);
+      pointer-events: none;
+    }
+    
+    .main-content h1 {
+      margin: 0 0 40px;
+      font-size: 3.5rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      text-shadow: 0 0 20px rgba(255, 97, 195, 0.5);
+      letter-spacing: 2px;
+      position: relative;
+      padding-bottom: 20px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .main-content h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      border-radius: 3px;
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+    
+    .button-container {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .button-container button {
+      padding: 15px 30px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 20px rgba(255, 97, 195, 0.4);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      min-width: 180px;
+    }
+    
+    .button-container button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.6s;
+      z-index: -1;
+    }
+    
+    .button-container button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 97, 195, 0.5);
+    }
+    
+    .button-container button:hover::before {
+      left: 100%;
+    }
+    
+    .button-container button.active {
+      background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(147, 85, 201, 0.5);
+    }
+    
+    .button-container button i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .button-container button:hover i {
+      transform: rotate(15deg);
+    }
+    
+    .routine-section {
+      display: none;
+      margin-bottom: 70px;
+      width: 100%;
+      max-width: 1200px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .routine-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .routine-section h2 {
+      margin: 0 0 40px;
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      text-align: center;
+      text-shadow: 0 0 15px rgba(71, 178, 221, 0.5);
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .yoga-routine, .stretch-routine, .cardio-routine {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    
+    .yoga-pose, .stretch-exercise, .cardio-exercise {
+      background-color: var(--card-bg);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      width: 250px;
+      text-align: center;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .yoga-pose::before, .stretch-exercise::before, .cardio-exercise::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      transform: rotate(30deg);
+    }
+    
+    .yoga-pose:hover, .stretch-exercise:hover, .cardio-exercise:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .yoga-pose:hover::before, .stretch-exercise:hover::before, .cardio-exercise:hover::before {
+      opacity: 1;
+    }
+    
+    .yoga-pose img, .stretch-exercise img, .cardio-exercise img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: transform 0.4s ease;
+      object-fit: cover;
+      height: 170px;
+      filter: brightness(1.1) contrast(1.1);
+    }
+    
+    .yoga-pose:hover img, .stretch-exercise:hover img, .cardio-exercise:hover img {
+      transform: scale(1.08);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .yoga-pose h3, .stretch-exercise h3, .cardio-exercise h3 {
+      margin: 20px 0 8px;
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(255, 97, 195, 0.3);
+      letter-spacing: 0.5px;
+    }
+    
+    .yoga-pose p, .stretch-exercise p, .cardio-exercise p {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 10px;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+    
+    .breathing-animation {
+      margin: 50px auto 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.15));
+      border-radius: 25px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 550px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .breathing-animation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(71, 178, 221, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+    
+    .breathing-ball {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, var(--accent-color), var(--primary-color));
+      border-radius: 50%;
+      animation: breathe 8s infinite, changeColor 8s infinite;
+      box-shadow: 0 0 40px rgba(155, 97, 255, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .breathing-ball::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+      transform: rotate(45deg);
+      animation: rotateTexture 12s linear infinite;
+    }
+    
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.6); }
+    }
+    
+    @keyframes changeColor {
+      0% { background: radial-gradient(circle,rgb(97, 63, 170),rgb(7, 215, 212)); box-shadow: 0 0 40px rgba(255, 176, 97, 0.8); }
+      33% { background: radial-gradient(circle, #8d7bf0, #32cfe1); box-shadow: 0 0 40px rgba(141, 123, 240, 0.8); }
+      66% { background: radial-gradient(circle, #e738bb, #4e2dbc); box-shadow: 0 0 40px rgba(231, 56, 187, 0.8); }
+      100% { background: radial-gradient(circle,rgb(255, 97, 226),rgb(59, 7, 215)); box-shadow: 0 0 40px rgba(255, 176, 97, 0.8); }
+    }
+    
+    @keyframes rotateTexture {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .breathing-instructions {
+      margin-top: 35px;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--text-color);
+      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      animation: pulse 8s infinite;
+      letter-spacing: 1px;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    
+    /* Add decorative particles */
+    .particle {
+      position: fixed;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+    
+    @media (max-width: 1200px) {
+      .yoga-routine, .stretch-routine, .cardio-routine {
+        gap: 25px;
+      }
+      
+      .yoga-pose, .stretch-exercise, .cardio-exercise {
+        width: 230px;
+      }
+      
+      .main-content {
+        padding: 50px 40px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .main-content h1 {
+        font-size: 3rem;
+      }
+      
+      .routine-section h2 {
+        font-size: 2.2rem;
+      }
+      
+      .breathing-animation {
+        padding: 30px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 25px 20px;
+        position: relative;
+      }
+      
+      .sidebar h2 {
+        margin-bottom: 20px;
+      }
+      
+      .sidebar a {
+        margin: 10px 0;
+        padding: 12px 15px;
+      }
+      
+      .main-content {
+        padding: 40px 20px;
+      }
+      
+      .button-container {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .button-container button {
+        width: 100%;
+      }
+      
+      .main-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .breathing-ball {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .breathing-instructions {
+        font-size: 1.4rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .yoga-pose, .stretch-exercise, .cardio-exercise {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .main-content h1 {
+        font-size: 2.2rem;
+      }
+      
+      .routine-section h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>SanvAI</h2>
+    <a href="/dashboard"><i class="fas fa-home"></i> Home</a>
+    <a href="/chatbot"><i class="fas fa-comment-dots"></i> Chatbot</a>
+    <a href="/songs"><i class="fas fa-music"></i> Songs</a>
+    <a href="/exercise"><i class="fas fa-dumbbell"></i> Exercise</a>
+    <a href="/journal"><i class="fas fa-book"></i> Journal</a>
+    <a href="/analytics"><i class="fas fa-chart-line"></i> Analytics</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Exercise Routines</h1>
+
+    <!-- Buttons to toggle sections -->
+    <div class="button-container">
+      <button id="yoga-btn" onclick="showSection('yoga')"><i class="fas fa-spa"></i> Yoga Routine</button>
+      <button id="stretch-btn" onclick="showSection('stretch')"><i class="fas fa-expand-arrows-alt"></i> Morning Stretch</button>
+      <button id="cardio-btn" onclick="showSection('cardio')"><i class="fas fa-heartbeat"></i> Cardio Workout</button>
+    </div>
+
+    <!-- Breathing Animation -->
+    <div class="breathing-animation">
+      <div class="breathing-ball"></div>
+      <div class="breathing-instructions">Breathe In... Breathe Out...</div>
+    </div>
+
+    <!-- Yoga Routine -->
+    <div id="yoga" class="routine-section">
+      <h2>Yoga Routine</h2>
+      <div class="yoga-routine">
+        <div class="yoga-pose">
+          <img src="{{ url_for('static', filename='videos/images/yoga1.jpg') }}" alt="Mountain Pose">
+          <h3>Mountain Pose</h3>
+          <p>Ground yourself and find stability</p>
+        </div>
+        <div class="yoga-pose">
+          <img src="{{ url_for('static', filename='videos/images/yoga2.jpg') }}" alt="Downward Dog">
+          <h3>Downward Dog</h3>
+          <p>Stretch and strengthen whole body</p>
+        </div>
+        <div class="yoga-pose">
+          <img src="{{ url_for('static', filename='videos/images/yoga3.jpg') }}" alt="Warrior Pose">
+          <h3>Warrior Pose</h3>
+          <p>Build strength and focus</p>
+        </div>
+        <div class="yoga-pose">
+          <img src="{{ url_for('static', filename='videos/images/yoga4.jpg') }}" alt="Child's Pose">
+          <h3>Child's Pose</h3>
+          <p>Rest and restore your energy</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Morning Stretch -->
+    <div id="stretch" class="routine-section">
+      <h2>Morning Stretch</h2>
+      <div class="stretch-routine">
+        <div class="stretch-exercise">
+          <img src="{{ url_for('static', filename='videos/images/stretch1.jpg') }}" alt="Neck Stretch">
+          <h3>Neck Stretch</h3>
+          <p>Release tension in your neck</p>
+        </div>
+        <div class="stretch-exercise">
+          <img src="{{ url_for('static', filename='videos/images/stretch2.jpg') }}" alt="Side Stretch">
+          <h3>Side Stretch</h3>
+          <p>Lengthen your side body</p>
+        </div>
+        <div class="stretch-exercise">
+          <img src="{{ url_for('static', filename='videos/images/stretch3.jpg') }}" alt="Hamstring Stretch">
+          <h3>Hamstring Stretch</h3>
+          <p>Loosen tight leg muscles</p>
+        </div>
+        <div class="stretch-exercise">
+          <img src="{{ url_for('static', filename='videos/images/stretch4.jpg') }}" alt="Chest Stretch">
+          <h3>Chest Stretch</h3>
+          <p>Open your chest and shoulders</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cardio Workout -->
+    <div id="cardio" class="routine-section">
+      <h2>Cardio Workout</h2>
+      <div class="cardio-routine">
+        <div class="cardio-exercise">
+          <img src="{{ url_for('static', filename='videos/images/cardio1.jpg') }}" alt="Jumping Jacks">
+          <h3>Jumping Jacks</h3>
+          <p>Full body warmup exercise</p>
+        </div>
+        <div class="cardio-exercise">
+          <img src="{{ url_for('static', filename='videos/images/cardio2.jpg') }}" alt="High Knees">
+          <h3>High Knees</h3>
+          <p>Elevate your heart rate</p>
+        </div>
+        <div class="cardio-exercise">
+          <img src="{{ url_for('static', filename='videos/images/cardio3.jpg') }}" alt="Burpees">
+          <h3>Burpees</h3>
+          <p>Build strength and endurance</p>
+        </div>
+        <div class="cardio-exercise">
+          <img src="{{ url_for('static', filename='videos/images/cardio4.jpg') }}" alt="Mountain Climbers">
+          <h3>Mountain Climbers</h3>
+          <p>Core strength and cardio</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to show the selected section and hide others
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.routine-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.button-container button').forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Show the selected section
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Add active class to clicked button
+      document.getElementById(sectionId + '-btn').classList.add('active');
+    }
+
+    // Show the Yoga Routine by default when the page loads
+    window.onload = () => {
+      showSection('yoga');
+      
+      // Create floating particles
+      createParticles();
+    };
+    
+    // Function to create floating particles
+    function createParticles() {
+      const particleCount = 20;
+      const body = document.querySelector('body');
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size
+        const size = Math.random() * 10 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        const posX = Math.random() * window.innerWidth;
+        const posY = Math.random() * window.innerHeight;
+        particle.style.left = `${posX}px`;
+        particle.style.top = `${posY}px`;
+        
+        // Random opacity
+        particle.style.opacity = Math.random() * 0.5 + 0.2;
+        
+        // Random animation
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 10;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        body.appendChild(particle);
+      }
+    }
+  </script>
+</body>
+</html>

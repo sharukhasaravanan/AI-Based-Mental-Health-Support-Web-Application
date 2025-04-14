@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Mental Health Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-72">
+                <div class="flex flex-col flex-grow pt-5 overflow-y-auto bg-black/30 backdrop-blur-lg">
+                    <div class="flex items-center flex-shrink-0 px-4 mb-8">
+                        
+                        <span class="mx-4 text-2xl font-semibold text-pink-500">SanvAI</span>
+                    </div>
+                    <nav class="flex-1 px-4 space-y-4">
+                        <div class="space-y-2">
+                            <a href="/dashboard" class="flex items-center px-4 py-3 text-white transition-colors rounded-lg hover:bg-white/10 group">
+                                <i class="fas fa-home w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Home</span>
+                            </a>
+                            <a href="/chatbot" class="flex items-center px-4 py-3 text-white transition-colors rounded-lg hover:bg-white/10 group">
+                                <i class="fas fa-comment-dots w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Chatbot</span>
+                            </a>
+                            <a href="/songs" class="flex items-center px-4 py-3 text-white transition-colors rounded-lg hover:bg-white/10 group">
+                                <i class="fas fa-music w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Songs</span>
+                            </a>
+                            <a href="/exercise" class="flex items-center px-4 py-3 text-white transition-colors rounded-lg hover:bg-white/10 group">
+                                <i class="fas fa-dumbbell w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Exercise</span>
+                            </a>
+                            <a href="/journal" class="flex items-center px-4 py-3 text-white transition-colors rounded-lg hover:bg-white/10 group">
+                                <i class="fas fa-book w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Journal</span>
+                            </a>
+                            <a href="/analytics" class="flex items-center px-4 py-3 text-white bg-white/10 rounded-lg group">
+                                <i class="fas fa-chart-line w-4 h-4 text-pink-500"></i>
+                                <span class="ml-3">Analytics</span>
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="p-4">
+                        <div class="p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg backdrop-blur-sm">
+                            
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top Bar -->
+            <header class="flex items-center justify-between px-6 py-4 bg-black/20 backdrop-blur-lg">
+                <div class="flex items-center">
+                    <button class="text-white md:hidden" title="Menu">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                    <h1 class="ml-4 text-xl font-semibold text-white">Analytics</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 text-white hover:bg-white/10 rounded-lg" title="Notifications">
+                        <i class="fas fa-bell text-xl"></i>
+                    </button>
+                    <button class="p-2 text-white hover:bg-white/10 rounded-lg" title="Settings">
+                        <i class="fas fa-cog text-xl"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Analytics Container -->
+            <div class="flex-1 overflow-y-auto bg-black/10 p-6">
+                <!-- Summary Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <!-- Summary Card 1 -->
+                    <div class="bg-gradient-to-r from-pink-600/30 to-pink-500/30 backdrop-blur-lg rounded-lg p-4 flex items-center">
+                        <div class="p-3 rounded-full bg-pink-500/20 mr-4">
+                            <i class="fas fa-smile text-2xl text-pink-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm">Average Mood</p>
+                            <h3 class="text-white text-2xl font-bold">7.5/10</h3>
+                            <p class="text-green-400 text-xs"><i class="fas fa-arrow-up"></i> 12% from last week</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary Card 2 -->
+                    <div class="bg-gradient-to-r from-purple-600/30 to-purple-500/30 backdrop-blur-lg rounded-lg p-4 flex items-center">
+                        <div class="p-3 rounded-full bg-purple-500/20 mr-4">
+                            <i class="fas fa-dumbbell text-2xl text-purple-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm">Exercise Minutes</p>
+                            <h3 class="text-white text-2xl font-bold">145</h3>
+                            <p class="text-green-400 text-xs"><i class="fas fa-arrow-up"></i> 8% from last week</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary Card 3 -->
+                    <div class="bg-gradient-to-r from-blue-600/30 to-blue-500/30 backdrop-blur-lg rounded-lg p-4 flex items-center">
+                        <div class="p-3 rounded-full bg-blue-500/20 mr-4">
+                            <i class="fas fa-bed text-2xl text-blue-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm">Avg. Sleep</p>
+                            <h3 class="text-white text-2xl font-bold">7.2 hrs</h3>
+                            <p class="text-red-400 text-xs"><i class="fas fa-arrow-down"></i> 5% from last week</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary Card 4 -->
+                    <div class="bg-gradient-to-r from-indigo-600/30 to-indigo-500/30 backdrop-blur-lg rounded-lg p-4 flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-500/20 mr-4">
+                            <i class="fas fa-book text-2xl text-indigo-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm">Journal Entries</p>
+                            <h3 class="text-white text-2xl font-bold">12</h3>
+                            <p class="text-green-400 text-xs"><i class="fas fa-arrow-up"></i> 33% from last week</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6 Charts Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Chart 1: Line Chart (Mood Trend) -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Mood Over Time</h2>
+                        <canvas id="moodChart"></canvas>
+                    </div>
+
+                    <!-- Chart 2: Bar Chart (Activity Frequency) -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Activity Frequency</h2>
+                        <canvas id="activityChart"></canvas>
+                    </div>
+
+                    <!-- Chart 3: Radar Chart (Wellness Dimensions) -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Wellness Dimensions</h2>
+                        <canvas id="wellnessChart"></canvas>
+                    </div>
+
+                    <!-- Chart 4: Doughnut Chart (Coping Strategies) -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Coping Strategies</h2>
+                        <canvas id="copingChart"></canvas>
+                    </div>
+
+                    <!-- Chart 5: Sleep Quality Chart -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Sleep Quality</h2>
+                        <canvas id="sleepChart"></canvas>
+                    </div>
+
+                    <!-- Chart 6: Journal Sentiment Analysis -->
+                    <div class="bg-black/20 backdrop-blur-lg rounded-lg p-6 h-80">
+                        <h2 class="text-xl font-semibold text-white mb-4">Journal Sentiment</h2>
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for charts
+        const chartData = {
+            // Mood data
+            moodLabels: ['Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5', 'Jan 6', 'Jan 7', 'Jan 8', 'Jan 9', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13', 'Jan 14'],
+            moodData: [6, 7, 5, 8, 7, 6, 9, 8, 7, 6, 8, 9, 7, 8],
+            
+            // Activity data
+            activityLabels: ['Meditation', 'Exercise', 'Journaling', 'Therapy', 'Deep Breathing', 'Social'],
+            activityData: [12, 8, 15, 4, 9, 11],
+            
+            // Wellness dimensions data
+            wellnessLabels: ['Emotional', 'Physical', 'Social', 'Spiritual', 'Intellectual', 'Occupational'],
+            wellnessData: [7, 6, 8, 5, 9, 7],
+            
+            // Coping strategies data
+            copingLabels: ['Meditation', 'Exercise', 'Creative Expression', 'Reading', 'Nature', 'Social Support'],
+            copingData: [25, 20, 15, 10, 15, 15],
+            
+            // Sleep data
+            sleepLabels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            sleepDuration: [7.2, 6.8, 7.5, 6.5, 7.0, 8.2, 8.5],
+            sleepQuality: [8, 6, 7, 5, 6, 9, 8],
+            
+            // Sentiment data
+            sentimentLabels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            positiveData: [60, 65, 70, 75],
+            neutralData: [30, 25, 20, 15],
+            negativeData: [10, 10, 10, 10]
+        };
+
+        // Chart 1: Mood Line Chart
+        const moodChartCtx = document.getElementById('moodChart').getContext('2d');
+        new Chart(moodChartCtx, {
+            type: 'line',
+            data: {
+                labels: chartData.moodLabels,
+                datasets: [{
+                    label: 'Mood Score',
+                    data: chartData.moodData,
+                    borderColor: '#ff61c5',
+                    backgroundColor: 'rgba(255, 97, 197, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Activity Bar Chart
+        const activityChartCtx = document.getElementById('activityChart').getContext('2d');
+        new Chart(activityChartCtx, {
+            type: 'bar',
+            data: {
+                labels: chartData.activityLabels,
+                datasets: [{
+                    label: 'Activity Count',
+                    data: chartData.activityData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Wellness Radar Chart
+        const wellnessChartCtx = document.getElementById('wellnessChart').getContext('2d');
+        new Chart(wellnessChartCtx, {
+            type: 'radar',
+            data: {
+                labels: chartData.wellnessLabels,
+                datasets: [{
+                    label: 'Current',
+                    data: chartData.wellnessData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(255, 99, 132, 1)'
+                }, {
+                    label: 'Target',
+                    data: [9, 9, 9, 9, 9, 9],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        },
+                        pointLabels: {
+                            color: 'white'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: 'white'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Coping Strategies Doughnut Chart
+        const copingChartCtx = document.getElementById('copingChart').getContext('2d');
+        new Chart(copingChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: chartData.copingLabels,
+                datasets: [{
+                    data: chartData.copingData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 5: Sleep Quality vs Duration
+        const sleepChartCtx = document.getElementById('sleepChart').getContext('2d');
+        new Chart(sleepChartCtx, {
+            type: 'bar',
+            data: {
+                labels: chartData.sleepLabels,
+                datasets: [
+                    {
+                        label: 'Duration (hours)',
+                        data: chartData.sleepDuration,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Quality (1-10)',
+                        data: chartData.sleepQuality,
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white',
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 6: Journal Sentiment Stacked Bar Chart
+        const sentimentChartCtx = document.getElementById('sentimentChart').getContext('2d');
+        new Chart(sentimentChartCtx, {
+            type: 'bar',
+            data: {
+                labels: chartData.sentimentLabels,
+                datasets: [
+                    {
+                        label: 'Positive',
+                        data: chartData.positiveData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Neutral',
+                        data: chartData.neutralData,
+                        backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Negative',
+                        data: chartData.negativeData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        stacked: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    x: {
+                        stacked: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

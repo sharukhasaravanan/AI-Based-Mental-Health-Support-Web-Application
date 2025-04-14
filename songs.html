@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SanvAI - Meditation Songs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #8A2BE2;
+      --primary-light: #9D4EDD;
+      --accent: #FF6AD5;
+      --text: #f8f9fa;
+      --dark: #2d3748;
+      --light: #f8f9fa;
+      --shadow: rgba(0, 0, 0, 0.2);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a202c, #2d3748);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background: rgba(26, 32, 44, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1.5rem;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--dark);
+      box-shadow: 0 4px 8px rgba(255, 106, 213, 0.3);
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    
+    .sidebar-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    
+    .sidebar-link:hover, .sidebar-link.active {
+      background: rgba(138, 43, 226, 0.15);
+      color: var(--accent);
+    }
+    
+    .sidebar-link.active {
+      background: rgba(138, 43, 226, 0.25);
+      border-left: 3px solid var(--accent);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      margin-left: 280px;
+      width: calc(100% - 280px);
+    }
+    
+    .page-header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #9D4EDD, #FF6AD5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    
+    .page-subtitle {
+      color: #cbd5e0;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .songs-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .song-card {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .song-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(138, 43, 226, 0.3);
+    }
+    
+    .song-image {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .song-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .song-card:hover .song-image img {
+      transform: scale(1.05);
+    }
+    
+    .song-wave {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      opacity: 0.6;
+    }
+    
+    .song-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .song-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+    
+    .song-description {
+      color: #cbd5e0;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+    
+    .song-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .song-tag {
+      font-size: 0.75rem;
+      background: rgba(138, 43, 226, 0.2);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+    }
+    
+    .audio-player {
+      width: 100%;
+      margin-top: auto;
+    }
+    
+    .custom-audio {
+      background: rgba(26, 32, 44, 0.5);
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .play-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px rgba(255, 106, 213, 0.3);
+    }
+    
+    .play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(255, 106, 213, 0.4);
+    }
+    
+    .time-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #a0aec0;
+    }
+    
+    .progress-container {
+      flex: 1;
+      height: 5px;
+      background: rgba(160, 174, 192, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      border-radius: 5px;
+    }
+    
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #a0aec0;
+    }
+    
+    .volume-slider {
+      width: 60px;
+      height: 3px;
+      -webkit-appearance: none;
+      background: rgba(160, 174, 192, 0.2);
+      border-radius: 5px;
+      outline: none;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    
+    .mood-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+    
+    .mood-label {
+      font-size: 0.75rem;
+      color: #a0aec0;
+    }
+    
+    .mood-scale {
+      display: flex;
+      gap: 0.25rem;
+    }
+    
+    .mood-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(160, 174, 192, 0.2);
+    }
+    
+    .mood-dot.active {
+      background: var(--accent);
+    }
+    
+    .footer {
+      margin-top: 4rem;
+      text-align: center;
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+    
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      .main-content {
+        margin-left: 240px;
+        width: calc(100% - 240px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        z-index: 100;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+      .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 101;
+        background: var(--accent);
+        color: var(--dark);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-brain logo-icon"></i>
+      </div>
+      <div class="logo-text">SanvAI</div>
+    </div>
+    
+    <div class="sidebar-links">
+      <a href="/dashboard" class="sidebar-link">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/chatbot" class="sidebar-link">
+        <i class="fas fa-comment-dots"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="/songs" class="sidebar-link active">
+        <i class="fas fa-music"></i>
+        <span>Songs</span>
+      </a>
+      <a href="/exercise" class="sidebar-link">
+        <i class="fas fa-dumbbell"></i>
+        <span>Exercises</span>
+      </a>
+      <a href="/journal" class="sidebar-link">
+        <i class="fas fa-book"></i>
+        <span>Journal</span>
+      </a>
+      <a href="/analytics" class="sidebar-link">
+        <i class="fas fa-chart-line"></i>
+        <span class="ml-3">Analytics</span>
+      </a>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Meditation Sounds</h1>
+      <p class="page-subtitle">Discover carefully curated sounds to help calm your mind, reduce anxiety, and improve your mental wellbeing.</p>
+    </div>
+    
+    <div class="songs-container">
+      <div class="song-card">
+        <div class="song-image">
+          <img src="{{ url_for('static', filename='videos/images/ocean waves.jpg') }}" alt="Ocean Waves">
+          <svg class="song-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(26, 32, 44, 0.8)"></path>
+          </svg>
+        </div>
+        <div class="song-content">
+          <h3 class="song-title">Ocean Serenity</h3>
+          <p class="song-description">Let the gentle ocean waves wash away your stress and bring calm to your mind.</p>
+          <div class="song-tags">
+            <span class="song-tag">Relaxation</span>
+            <span class="song-tag">Sleep</span>
+            <span class="song-tag">Stress Relief</span>
+          </div>
+          <div class="audio-player">
+            <div class="custom-audio">
+              <div class="audio-controls">
+                <button class="play-btn">
+                  <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container">
+                  <div class="progress-bar"></div>
+                </div>
+              </div>
+              <div class="time-info">
+                <span>1:24</span>
+                <span>4:32</span>
+              </div>
+              <div class="mood-indicator">
+                <span class="mood-label">Calming</span>
+                <div class="mood-scale">
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot"></div>
+                </div>
+              </div>
+            </div>
+            <audio src="/static/videos/songs/song1.mp3" style="display: none;"></audio>
+          </div>
+        </div>
+      </div>
+      
+      <div class="song-card">
+        <div class="song-image">
+          <img src="{{ url_for('static', filename='videos/images/forest.jpg') }}" alt="Forest Meditation">
+          <svg class="song-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(26, 32, 44, 0.8)"></path>
+          </svg>
+        </div>
+        <div class="song-content">
+          <h3 class="song-title">Forest Whispers</h3>
+          <p class="song-description">Immerse yourself in the peaceful sounds of a forest with gentle bird songs and rustling leaves.</p>
+          <div class="song-tags">
+            <span class="song-tag">Focus</span>
+            <span class="song-tag">Meditation</span>
+            <span class="song-tag">Nature</span>
+          </div>
+          <div class="audio-player">
+            <div class="custom-audio">
+              <div class="audio-controls">
+                <button class="play-btn">
+                  <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container">
+                  <div class="progress-bar"></div>
+                </div>
+              </div>
+              <div class="time-info">
+                <span>0:00</span>
+                <span>5:18</span>
+              </div>
+              <div class="mood-indicator">
+                <span class="mood-label">Peaceful</span>
+                <div class="mood-scale">
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot"></div>
+                  <div class="mood-dot"></div>
+                </div>
+              </div>
+            </div>
+            <audio src="/static/videos/songs/song2.mp3" style="display: none;"></audio>
+          </div>
+        </div>
+      </div>
+      
+      <div class="song-card">
+        <div class="song-image">
+          <img src="{{ url_for('static', filename='videos/images/rainfall.jpg') }}" alt="Mindful Rain">
+          <svg class="song-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(26, 32, 44, 0.8)"></path>
+          </svg>
+        </div>
+        <div class="song-content">
+          <h3 class="song-title">Gentle Rainfall</h3>
+          <p class="song-description">The soothing sound of rain falling softly, perfect for deep relaxation and mindfulness practice.</p>
+          <div class="song-tags">
+            <span class="song-tag">Sleep Aid</span>
+            <span class="song-tag">Anxiety Relief</span>
+            <span class="song-tag">Nature</span>
+          </div>
+          <div class="audio-player">
+            <div class="custom-audio">
+              <div class="audio-controls">
+                <button class="play-btn">
+                  <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container">
+                  <div class="progress-bar"></div>
+                </div>
+              </div>
+              <div class="time-info">
+                <span>0:00</span>
+                <span>6:45</span>
+              </div>
+              <div class="mood-indicator">
+                <span class="mood-label">Soothing</span>
+                <div class="mood-scale">
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                </div>
+              </div>
+            </div>
+            <audio src="#" style="display: none;"></audio>
+          </div>
+        </div>
+      </div>
+      
+      <div class="song-card">
+        <div class="song-image">
+          <img src="{{ url_for('static', filename='videos/images/cosmic.jpg') }}" alt="Cosmic Harmony">
+          <svg class="song-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(26, 32, 44, 0.8)"></path>
+          </svg>
+        </div>
+        <div class="song-content">
+          <h3 class="song-title">Cosmic Harmony</h3>
+          <p class="song-description">Ambient sounds and gentle frequencies designed to align your chakras and promote inner balance.</p>
+          <div class="song-tags">
+            <span class="song-tag">Deep Meditation</span>
+            <span class="song-tag">Healing</span>
+            <span class="song-tag">Balance</span>
+          </div>
+          <div class="audio-player">
+            <div class="custom-audio">
+              <div class="audio-controls">
+                <button class="play-btn">
+                  <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container">
+                  <div class="progress-bar"></div>
+                </div>
+              </div>
+              <div class="time-info">
+                <span>0:00</span>
+                <span>8:12</span>
+              </div>
+              <div class="mood-indicator">
+                <span class="mood-label">Transcendent</span>
+                <div class="mood-scale">
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot active"></div>
+                  <div class="mood-dot"></div>
+                </div>
+              </div>
+            </div>
+            <audio src="#" style="display: none;"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>© 2025 Harmony Mind. All sounds are designed to support mental wellbeing.</p>
+      <p>If you're experiencing severe mental health issues, please <a href="/resources">seek professional help</a>.</p>
+    </div>
+  </div>
+  
+  <script>
+    // Simple play/pause functionality for demo purposes
+    document.querySelectorAll('.play-btn').forEach((button, index) => {
+      const audioElements = document.querySelectorAll('audio');
+      let isPlaying = false;
+      
+      button.addEventListener('click', () => {
+        const icon = button.querySelector('i');
+        const audio = audioElements[index];
+        
+        if (!isPlaying) {
+          // Stop all other playing audio first
+          audioElements.forEach((el, i) => {
+            if (i !== index && !el.paused) {
+              el.pause();
+              document.querySelectorAll('.play-btn')[i].innerHTML = '<i class="fas fa-play"></i>';
+            }
+          });
+          
+          audio.play();
+          icon.className = 'fas fa-pause';
+          isPlaying = true;
+        } else {
+          audio.pause();
+          icon.className = 'fas fa-play';
+          isPlaying = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
